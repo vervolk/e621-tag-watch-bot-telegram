@@ -26,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram/issues"
   },
-  "homepage": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram#readme"
+  "homepage": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram#readme",
+  "dependencies": {
+    "colorful-log-levels": "^0.2.0",
+    "e621-api": "^0.1.2"
+  }
 }
