@@ -1,0 +1,30 @@
+{
+  "name": "e621-tag-watch-bot-telegram",
+  "version": "0.0.1",
+  "description": "Telegram bot to watch e621 tags for you",
+  "main": "build/bot.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilithTundrus/e621-tag-watch-bot-telegram.git"
+  },
+  "keywords": [
+    "e621",
+    "telegram",
+    "bot",
+    "typescript",
+    "node",
+    "node.js"
+  ],
+  "author": "Lilith Tundrus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram/issues"
+  },
+  "homepage": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram#readme"
+}
