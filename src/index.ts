@@ -21,7 +21,7 @@ import session from 'telegraf/session';
 
 let logger = new Logger('../logs', logLevels.error, true);
 
-// Set limit to 1 message per 3 seconds
+// Set limit to 1 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
     window: 3000,
     limit: 3,
@@ -31,12 +31,9 @@ const limitConfig = {
     })
 }
 
-
-
-bot.telegram.getMe()
-    .then((botInfo) => {
-        bot.options.username = botInfo.username;
-    });
+bot.telegram.getMe().then((botInfo) => {
+    bot.options.username = botInfo.username;
+});
 
 // Put middleware globally fo the bot here
 bot.use(
@@ -56,3 +53,7 @@ bot.use(
 bot.startPolling();
 logger.info(`e621WatchBot ${ver} started at: ${new Date().toISOString()}`);
 
+bot.catch((err) => {
+    logger.error(err);
+    // send a message to the admin list about the error
+})
