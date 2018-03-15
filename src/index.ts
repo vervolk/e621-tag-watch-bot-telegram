@@ -12,7 +12,7 @@ import { e621TagTypes, e621PopularityStrings } from 'e621-api/build/enums';
 import bot from './bot/bot-main';
 import { ver, prod, debug, adminID} from './config/config';
 // Processing timer for getting 
-import { elapsedTime } from './lib/timer';
+import { elapsedTime, resetTimer } from './lib/timer';
 // rate-limiter npm package for telegraf
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
@@ -60,11 +60,13 @@ if (debug) elapsedTime('Bot polling started');
 
 logger.info(`e621WatchBot ${ver} started at: ${new Date().toISOString()}`);
 
-// Attach items to the 
+// Attach functions/classes to the bot's context arguments passed to functions
 bot.context.time = elapsedTime;
+bot.context.resetTimer = resetTimer;
+bot.context.logger = logger;
 
 bot.catch((err) => {
     logger.error(err);
     // send a message to the admin list about the error
     bot.sendMessage(adminID, err);
-})
+});
