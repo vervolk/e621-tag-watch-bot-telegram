@@ -4,7 +4,6 @@
 // Logging system (basic, gets attached to the bot)
 import Logger from 'colorful-log-levels/logger';
 import { logLevels } from 'colorful-log-levels/enums';
-
 // API interaction for e621
 import e621 from 'e621-api'
 import { e621PostData } from 'e621-api/build/interfaces';
@@ -13,7 +12,7 @@ import bot from './bot/bot-main';
 import { ver, prod, debug } from './config/config';
 import { elapsedTime } from './lib/timer';
 
-// should probably put these in bot-main
+// rate-limiter npm package for telegraf
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
 
@@ -41,6 +40,7 @@ bot.telegram.getMe().then((botInfo) => {
 bot.use(
     session(),
     rateLimit(limitConfig),
+    require('./bot/commands/index'),
     // Allow for atached .then() to a ctx.reply()
     (ctx, next) => {
         const reply = ctx.reply;
@@ -52,8 +52,15 @@ bot.use(
     },
 );
 
+if (debug) elapsedTime('Starting bot polling...');
+// We're using polling for now since it's a bit simpler for development than webhooks
 bot.startPolling();
+if (debug) elapsedTime('Bot polling started');
+
 logger.info(`e621WatchBot ${ver} started at: ${new Date().toISOString()}`);
+
+
+bot.context.time = elapsedTime;
 
 bot.catch((err) => {
     logger.error(err);
