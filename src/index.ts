@@ -10,12 +10,13 @@ import e621 from 'e621-api';
 import { e621PostData } from 'e621-api/build/interfaces';
 import { e621TagTypes, e621PopularityStrings } from 'e621-api/build/enums';
 import bot from './bot/bot-main';
-import { ver, prod, debug, adminID} from './config/config';
+import { ver, prod, debug, adminID } from './config/config';
 // Processing timer for getting 
 import { elapsedTime, resetTimer } from './lib/timer';
 // rate-limiter npm package for telegraf
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
+// import { User, Chat, Voice } from 'telegram-typings'
 // #endregion
 
 // definitely going to need a DB for users from the other project
