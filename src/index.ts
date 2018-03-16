@@ -16,13 +16,11 @@ import { elapsedTime, resetTimer } from './lib/timer';
 // rate-limiter npm package for telegraf
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
-// import { User, Chat, Voice } from 'telegram-typings'
 // #endregion
 
-// definitely going to need a DB for users from the other project
-if (debug) elapsedTime('Starting the logger...');
+// Note: definitely going to need a DB for users from the other project
+
 let logger = new Logger('../logs', logLevels.error, true);
-if (debug) elapsedTime('Logger initialized');
 
 // Set limit to 1 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
@@ -54,6 +52,7 @@ bot.use(
     },
 );
 
+resetTimer();
 if (debug) elapsedTime('Starting bot polling...');
 // We're using polling for now since it's a bit simpler for development than webhooks
 bot.startPolling();
