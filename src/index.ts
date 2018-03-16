@@ -6,6 +6,7 @@
 import Logger from 'colorful-log-levels/logger';
 import { logLevels } from 'colorful-log-levels/enums';
 // API interaction for e621
+// TODO: attach this to bot context!!!
 import e621 from 'e621-api';
 import { e621PostData } from 'e621-api/build/interfaces';
 import { e621TagTypes, e621PopularityStrings } from 'e621-api/build/enums';
@@ -22,6 +23,16 @@ import { Message } from 'telegram-typings';
 // Note: definitely going to need a DB for users from the other project
 
 // TODO: Create a way to have an event system for the actual tag watching of the bot
+
+/* 
+Gaols/Features:
+
+We want this to be a bot that allows users to 'subscribe' to a tag or set
+of tags from the e621 site. Support for favcount filters among other things should
+be supported. On an update to one or more of the user's tags + preferences 
+they will receive a message with the image or set of images/posts
+
+*/
 
 let logger = new Logger('../logs', logLevels.error, true);
 
