@@ -16,6 +16,7 @@ import { elapsedTime, resetTimer } from './lib/timer';
 // rate-limiter npm package for telegraf
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
+import { Message } from 'telegram-typings';
 // #endregion
 
 // Note: definitely going to need a DB for users from the other project
@@ -64,6 +65,10 @@ logger.info(`e621WatchBot ${ver} started at: ${new Date().toISOString()}`);
 bot.context.time = elapsedTime;
 bot.context.resetTimer = resetTimer;
 bot.context.logger = logger;
+
+bot.on('message', (ctx) => {
+    logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`)
+})
 
 bot.catch((err) => {
     logger.error(err);
