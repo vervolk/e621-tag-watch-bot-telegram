@@ -21,6 +21,8 @@ import { Message } from 'telegram-typings';
 
 // Note: definitely going to need a DB for users from the other project
 
+// TODO: Create a way to have an event system for the actual tag watching of the bot
+
 let logger = new Logger('../logs', logLevels.error, true);
 
 // Set limit to 1 message per 3 seconds using telegraf-ratelimit
@@ -66,9 +68,10 @@ bot.context.time = elapsedTime;
 bot.context.resetTimer = resetTimer;
 bot.context.logger = logger;
 
+// Listen for any message sent to the bot
 bot.on('message', (ctx) => {
-    logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`)
-})
+    return ctx.logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`)
+});
 
 bot.catch((err) => {
     logger.error(err);

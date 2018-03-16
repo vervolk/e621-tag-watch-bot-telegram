@@ -6,12 +6,12 @@ import os from 'os';
 
 export default async function processinfoHandler(ctx) {
     // Check if user is admin
-    if (ctx.message.from.id.toString() !== adminID) {
+    if (ctx.message.from.id !== adminID) {
         ctx.logger.auth(`${ctx.message.from.username}(${ctx.message.from.id}) attempted to run the command 'processinfo' at ${new Date().toISOString()}`);
         return ctx.reply(`Sorry, you don't have access to this command. This attempt will be logged.`);
     } else {
         let processInfoMessage = `Bot Version: ${ver}\n\nRAM Total: ${Math.round(os.totalmem() / 1024 / 1024)}MB\nRAM free: ${Math.round(os.freemem() / 1024 / 1024)}MB\nIn use by Bot: ${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB\nCPU load: ${os.loadavg()[0]}%`;
-        processInfoMessage = processInfoMessage + `\n\nUptime: ${formatTime(process.uptime())}\n\nDebug ${debug}\t\tProd: ${prod}`;
+        processInfoMessage = processInfoMessage + `\n\nUptime: ${formatTime(process.uptime())}\n\nDebug: ${debug}\nProd: ${prod}`;
         return ctx.reply(processInfoMessage);
     }
 }
