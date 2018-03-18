@@ -6,10 +6,9 @@
 import Logger from 'colorful-log-levels/logger';
 import { logLevels } from 'colorful-log-levels/enums';
 // API interaction for e621
-// TODO: attach this to bot context!!!
 import e621 from 'e621-api';
 import { e621PostData } from 'e621-api/build/interfaces';
-import { e621TagTypes, e621PopularityStrings } from 'e621-api/build/enums';
+import { e621TagTypes, e621PopularityStrings, e621RelatedTagArrayTypes } from 'e621-api/build/enums';
 import bot from './bot/bot-main';
 import { ver, prod, debug, adminID } from './config/config';
 // Processing timer for getting 
@@ -21,22 +20,19 @@ import { Message } from 'telegram-typings';
 // #endregion
 
 // Note: definitely going to need a DB for users from the other project
-
 // TODO: Create a way to have an event system for the actual tag watching of the bot
 
 /* 
 Gaols/Features:
-
 We want this to be a bot that allows users to 'subscribe' to a tag or set
 of tags from the e621 site. Support for favcount filters among other things should
 be supported. On an update to one or more of the user's tags + preferences 
 they will receive a message with the image or set of images/posts
-
 */
-
 let logger = new Logger('../logs', logLevels.error, true);
+let wrapper = new e621('lilithtundrus/tag-watcher-test-0.0.1', 3);
 
-// Set limit to 1 message per 3 seconds using telegraf-ratelimit
+// Set limit to 3 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
     window: 3000,
     limit: 3,
@@ -78,14 +74,14 @@ logger.info(`e621WatchBot ${ver} started at: ${new Date().toISOString()}`);
 bot.context.time = elapsedTime;
 bot.context.resetTimer = resetTimer;
 bot.context.logger = logger;
+bot.context.wrapper = wrapper;
 
 // Listen for any message sent to the bot
 bot.on('message', (ctx) => {
-    return ctx.logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`)
+    return ctx.logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`);
 });
 
 bot.catch((err) => {
-    logger.error(err);
-    // send a message to the admin list about the error
-    bot.sendMessage(adminID, err);
+    bot.sendMessage(adminID, err.toString());
+    return logger.error(err);
 });
