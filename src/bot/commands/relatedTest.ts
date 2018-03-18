@@ -24,5 +24,4 @@ export default async function relatedTagTest(ctx) {
             })
             .then(() => ctx.time('Message sent!'));
     }
-
 }
