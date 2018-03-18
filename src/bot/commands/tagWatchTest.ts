@@ -11,9 +11,19 @@ export default async function tagWatchTest(ctx) {
     ctx.resetTimer();
     ctx.time('Running e621 tests...');
     ctx.logger.debug(`TEST from ${JSON.stringify(ctx.message.from.username)}`)
-    return wrapper.getTagJSONByName('werewolf')
-        .then((data) => {
-            return ctx.reply(data)
-        })
-        .then(() => ctx.time('Message sent!'));
+    console.log(ctx.message.text.substring(6));
+    if (ctx.message.text.substring(6).length < 1) {
+        return ctx.reply(`Please give a test tag to get the count of along with the /test command`)
+            .then(() => ctx.time('Message sent!'));
+    } else {
+        return wrapper.getTagJSONByName(ctx.message.text.substring(6))
+            .then((data) => {
+                if (data.length < 1) {
+                    return ctx.reply(`Sorry, I couldn't get a count for the tag: ${ctx.message.text.substring(6)}`)
+                }
+                return ctx.reply(`Count: ${data[0].count}`)
+            })
+            .then(() => ctx.time('Message sent!'));
+    }   
+
 }
