@@ -18,7 +18,7 @@ export default async function relatedTagTest(ctx) {
                 }
                 let messageArray = [];
                 data.forEach(element => {
-                    messageArray.push(`Tag: ${element[0]}, count: ${element[1]}`)
+                    messageArray.push(`Tag: ${element[0]}, 24HR Popularity index: ${element[1]}`)
                 });
                 return ctx.reply(messageArray.join('\n'))
             })
