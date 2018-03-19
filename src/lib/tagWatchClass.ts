@@ -1,8 +1,7 @@
 
 // This class will  be async and spawn a child process to work as a listenner for tags
 // by periodically scanning e621 for posts with the tags provided
-let Fiber = require('fibers');
-
+import Fiber from 'fibers';
 
 export default class TagWatcher {
     private teleCtx: any;
@@ -17,6 +16,7 @@ export default class TagWatcher {
         setInterval(this.fiberTest.bind(this), 15 * 1000)
     }
 
+    // This is janky and works for now, but doing anything besides this will be tricky
     private fiberTest() {
         console.log(`Private function for ${this.tag}`);
         let test = Fiber(() => {
@@ -27,14 +27,19 @@ export default class TagWatcher {
                     console.log(data[0])
                     if (data[0].count !== this.originalCount) {
                         // update the counter
-                        this.originalCount = data[0].count
+                        this.originalCount = data[0].count;
+                        // blacklist test
                         return this.teleCtx.reply(`You've got new data for ${this.tag}`)
                             .then(() => {
                                 // get the post (I think)
                                 this.teleCtx.wrapper.getE621PostIndexPaginate(this.tag, 0, 1, 1)
                                     .then((response) => {
-                                        let reply = this.teleCtx.wrapper.generateE621PostUrl(response[0][0].id)
-                                        return this.teleCtx.reply(reply);
+                                        if (data[0].tags.includes('canine') == false) {
+                                            let reply = this.teleCtx.wrapper.generateE621PostUrl(response[0][0].id)
+                                            return this.teleCtx.reply(reply);
+                                        } else {
+                                            return this.teleCtx.reply(`Post includes test blacklist 'canine', skipping`);
+                                        }
                                     })
                             })
                     } else {
