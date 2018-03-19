@@ -82,6 +82,6 @@ bot.on('message', (ctx) => {
 });
 
 bot.catch((err) => {
-    bot.sendMessage(adminID, err.toString());
+    // bot.sendMessage(adminID, err.toString());
     return logger.error(err);
 });

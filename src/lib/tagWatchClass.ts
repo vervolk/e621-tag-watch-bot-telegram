@@ -3,7 +3,7 @@
 // by periodically scanning e621 for posts with the tags provided
 
 
-export default class TahWatcher {
+export default class TagWatcher {
     private teleCtx: any;
     private originalCount: number
     constructor(teleCtx: any, originalCount: number) {
@@ -11,7 +11,7 @@ export default class TahWatcher {
         this.originalCount = originalCount
     }
     subscribe() {
-        setInterval(this.subscribeTest.bind(this), 10 * 1000)
+        setInterval(this.subscribeTest.bind(this), 15 * 1000)
     }
 
     private subscribeTest() {
@@ -28,7 +28,8 @@ export default class TahWatcher {
                             // get the post (I think)
                             this.teleCtx.wrapper.getE621PostIndexPaginate('fox', 0, 1, 1)
                                 .then((response) => {
-                                    return this.teleCtx.reply(response[0][0].file_url)
+                                    let reply = this.teleCtx.wrapper.generateE621PostUrl(response[0][0].id)
+                                    return this.teleCtx.reply(reply)
                                 })
                         })
                 } else {
