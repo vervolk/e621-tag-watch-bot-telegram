@@ -1,7 +1,9 @@
 'use strict';
-import TagWatcher from '../../lib/tagWatchClass'
+import TagWatcher from '../../lib/tagWatchClass';
 
 export default async function watcHandler(ctx) {
+    // TODO: Figure out how to use fiber to thread out the watch for each user!
+
     ctx.resetTimer();
     ctx.time('Running watch handler...');
     ctx.logger.debug(`/watch from ${JSON.stringify(ctx.message.from.username)}`)
