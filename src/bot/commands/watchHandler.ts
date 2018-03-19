@@ -1,4 +1,5 @@
 'use strict';
+import TagWatcher from '../../lib/tagWatchClass'
 
 export default async function watcHandler(ctx) {
     ctx.resetTimer();
@@ -20,9 +21,11 @@ export default async function watcHandler(ctx) {
                     return ctx.reply(`Sorry, I couldn't find a tag named '${tagString}'. Make sure you aren't using ther shorthand for the tag!`)
                         .then(() => ctx.time('Message sent!'));
                 }
+
                 return ctx.reply(`Setting up hard coded event listener`)
                     .then(() => {
-                        setInterval(testInterval.bind(ctx), 5000)
+                        let tagWatcher = new TagWatcher(ctx, data[0].count);
+                        return tagWatcher.subscribe();
                     })
 
             })
@@ -32,7 +35,6 @@ export default async function watcHandler(ctx) {
 
 
 function testInterval() {
-    console.log(this)
     this.wrapper.getTagJSONByName(this.message.text.substring(7))
         .then((data) => {
             return this.reply(data)
