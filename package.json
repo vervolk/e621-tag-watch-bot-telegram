@@ -29,6 +29,7 @@
   "homepage": "https://github.com/LilithTundrus/e621-tag-watch-bot-telegram#readme",
   "dependencies": {
     "@types/es6-promise": "^3.3.0",
+    "@types/fibers": "0.0.30",
     "colorful-log-levels": "^0.2.0",
     "e621-api": "^0.2.6",
     "fibers": "^2.0.0",
