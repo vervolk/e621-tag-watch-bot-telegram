@@ -33,8 +33,9 @@ they will receive a message with the image or set of images/posts
 */
 let logger = new Logger('../logs', logLevels.error, true);
 let wrapper = new e621('lilithtundrus/tag-watcher-test-0.0.1', 3);
-db.connect();
 
+// Connect to the DB on startup
+db.connect();
 
 // Set limit to 3 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
@@ -79,6 +80,7 @@ bot.context.time = elapsedTime;
 bot.context.resetTimer = resetTimer;
 bot.context.logger = logger;
 bot.context.wrapper = wrapper;
+bot.context.db = db;
 
 // Listen for any message sent to the bot
 bot.on('message', (ctx) => {
@@ -86,6 +88,6 @@ bot.on('message', (ctx) => {
 });
 
 bot.catch((err) => {
-    // bot.sendMessage(adminID, err.toString());
+    bot.telegram.sendMessage(adminID, err.toString());
     return logger.error(err);
 });
