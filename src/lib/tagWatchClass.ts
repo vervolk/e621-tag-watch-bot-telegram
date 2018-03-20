@@ -9,7 +9,8 @@ export default class TagWatcher {
     private tag: string;
     constructor(teleCtx: any, originalCount: number) {
         this.teleCtx = teleCtx;
-        this.originalCount = originalCount
+        // Artificially make this find a 'new' item on first pass
+        this.originalCount = originalCount - 1
         this.tag = this.teleCtx.message.text.substring(7);
     }
     subscribe() {
@@ -34,7 +35,7 @@ export default class TagWatcher {
                                 // get the post (I think)
                                 this.teleCtx.wrapper.getE621PostIndexPaginate(this.tag, 0, 1, 1)
                                     .then((response) => {
-                                        if (data[0].tags.includes('canine') == false) {
+                                        if (response[0][0].tags.includes('canine') == false) {
                                             let reply = this.teleCtx.wrapper.generateE621PostUrl(response[0][0].id)
                                             return this.teleCtx.reply(reply);
                                         } else {
