@@ -36,6 +36,13 @@ let wrapper = new e621('lilithtundrus/tag-watcher-test-0.0.1', 3);
 
 // Connect to the DB on startup
 db.connect();
+// db.addUser(adminID, 'fox,wolf', '')
+db.getAllUserData().then((data) => {
+    console.log(data[0])
+})
+db.getUserDataByID(adminID).then((userData) => {
+    console.log(userData.teleid)
+})
 
 // Set limit to 3 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
