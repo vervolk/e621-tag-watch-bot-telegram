@@ -30,9 +30,11 @@
   "dependencies": {
     "@types/es6-promise": "^3.3.0",
     "@types/fibers": "0.0.30",
+    "@types/mysql": "^2.15.3",
     "colorful-log-levels": "^0.2.0",
     "e621-api": "^0.2.6",
     "fibers": "^2.0.0",
+    "mysql": "^2.15.0",
     "telegraf": "^3.19.0",
     "telegraf-ratelimit": "^2.0.0",
     "telegram-typings": "^0.3.5-3"
