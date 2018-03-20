@@ -17,6 +17,8 @@ import { elapsedTime, resetTimer } from './lib/timer';
 import rateLimit from 'telegraf-ratelimit';
 import session from 'telegraf/session';
 import { Message } from 'telegram-typings';
+// Database wrapper 
+import * as db from './db/database';
 // #endregion
 
 // Note: definitely going to need a DB for users from the other project
@@ -31,6 +33,8 @@ they will receive a message with the image or set of images/posts
 */
 let logger = new Logger('../logs', logLevels.error, true);
 let wrapper = new e621('lilithtundrus/tag-watcher-test-0.0.1', 3);
+db.connect();
+
 
 // Set limit to 3 message per 3 seconds using telegraf-ratelimit
 const limitConfig = {
