@@ -42,7 +42,7 @@ db.connect();
 // GET each user, find their watches and instate them (delays in between)
 db.getAllUserData().then((userRows) => {
     userRows.forEach((userSet, index) => {
-        let userWatchThread = new TagWatchInitializer(bot.telegram, userSet)
+        let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet)
         userWatchThread.test();
         bot.telegram.sendMessage(userSet.teleid, 'test')
     })

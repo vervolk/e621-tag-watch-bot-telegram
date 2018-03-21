@@ -47,7 +47,7 @@ export function addUser(teleid: number, watchlist: string, blackList: string) {
     });
 }
 
-export function modifyUser() {
+export function modifyUser(teleid: number, watchlist?: string, blacklist?: string) {
 
 }
 
