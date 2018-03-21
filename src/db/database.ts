@@ -4,7 +4,7 @@ import * as mysql from 'mysql';
 
 export interface userSingleRow {
     teleid: number
-    watchList: string
+    watchlist: string
     blacklist: string
 }
 
