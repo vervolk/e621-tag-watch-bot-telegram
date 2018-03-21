@@ -19,6 +19,8 @@ import session from 'telegraf/session';
 import { Message } from 'telegram-typings';
 // Database wrapper 
 import * as db from './db/database';
+import TagWatchInitializer from './lib/newTagWatchClass';
+
 // #endregion
 
 // Note: definitely going to need a DB for users from the other project
@@ -36,12 +38,14 @@ let wrapper = new e621('lilithtundrus/tag-watcher-test-0.0.1', 3);
 
 // Connect to the DB on startup
 db.connect();
-// db.addUser(adminID, 'fox,wolf', '')
-db.getAllUserData().then((data) => {
-    console.log(data[0])
-})
-db.getUserDataByID(adminID).then((userData) => {
-    console.log(userData.teleid)
+
+// GET each user, find their watches and instate them (delays in between)
+db.getAllUserData().then((userRows) => {
+    userRows.forEach((userSet, index) => {
+        let userWatchThread = new TagWatchInitializer(bot.telegram, userSet)
+        userWatchThread.test();
+        bot.telegram.sendMessage(userSet.teleid, 'test')
+    })
 })
 
 // Set limit to 3 message per 3 seconds using telegraf-ratelimit

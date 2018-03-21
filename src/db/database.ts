@@ -71,9 +71,9 @@ export function getUserDataByID(teleid): Promise<userSingleRow> {
         });
     });
 }
+
 /**
- * 
- * 
+ * Get ALL user data in an array
  * @export
  * @returns {Promise}
  */

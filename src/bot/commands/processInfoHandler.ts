@@ -3,7 +3,7 @@ import { ver, prod, debug, adminID } from '../../config/config';
 // Built in to Node, used to get OS info
 import os from 'os';
 
-
+// TODO: Add DB statistics (user count, watching threads count)
 export default async function processinfoHandler(ctx) {
     // Check if user is admin
     if (ctx.message.from.id !== adminID) {
