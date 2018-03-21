@@ -13,12 +13,12 @@ export default class TagWatchInitializer {
         this.dbUserSet = dbUserSet;
     }
 
-
     test() {
         setInterval(this.intervalTest.bind(this), 5 * 1000)
     }
 
-    private intervalTest() {
-        this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, 'SUPER FOX')
+    private async intervalTest() {
+        console.log(this.dbUserSet)
+        this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, this.dbUserSet.watchlist);
     }
 }
