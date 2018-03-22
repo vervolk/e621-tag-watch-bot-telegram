@@ -10,22 +10,24 @@ export default class TagWatchInitializer {
     private teleCtx: any;
     private botTelegramInstance: any
     private dbUserSet: userSingleRow;
-    private tagCount: number
-    constructor(teleCtx: any, botTelegramInstance: any, dbUserSet: userSingleRow) {
+    private tagCount: number;
+    private indexToWatch: number
+    constructor(teleCtx: any, botTelegramInstance: any, dbUserSet: userSingleRow, indexToWatch: number) {
         this.teleCtx = teleCtx;
         this.botTelegramInstance = botTelegramInstance;
         this.dbUserSet = dbUserSet;
-        this.tagCount = 0
+        this.tagCount = 0;
+        this.indexToWatch = indexToWatch;
     }
 
     test() {
         let originalCount: number = 0;
-        console.log(this.dbUserSet)
+        console.log(this.dbUserSet);
         let watchlist = this.dbUserSet.watchlist.split(',')
-        return this.getOriginalCount(watchlist[0])
+        return this.getOriginalCount(watchlist[this.indexToWatch])
             .then((count: number) => {
                 this.tagCount = count
-                setInterval(this.intervalTest.bind(this, watchlist[0]), 10 * 1000)
+                setInterval(this.intervalTest.bind(this, watchlist[this.indexToWatch]), 10 * 1000)
             })
     }
 
@@ -33,16 +35,18 @@ export default class TagWatchInitializer {
         console.log(`Private function for ${tag}`);
         let test = Fiber(() => {
             console.log(`Fiber function for ${tag}`);
-            this.teleCtx.wrapper.getTagJSONByName(tag)
+            return this.teleCtx.wrapper.getTagJSONByName(tag)
                 .then((data) => {
-                    console.log(data[0])
-                    console.log(this.tagCount)
+                    // Debugging
+                    console.log(data[0]);
+                    // Debugging
+                    console.log(this.tagCount);
                     if (data[0].count !== this.tagCount) {
                         // update the counter
                         this.tagCount = data[0].count;
                         return this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, `You've got new data for ${tag}`)
                             .then(() => {
-                                // get the post (I think)
+                                // get the post
                                 this.teleCtx.wrapper.getE621PostIndexPaginate(tag, 0, 1, 1)
                                     .then((response) => {
                                         // blacklist test
@@ -55,6 +59,7 @@ export default class TagWatchInitializer {
                                     })
                             })
                     } else {
+                        // Debugging
                         this.teleCtx.logger.debug(`No new data for ${tag} listener`);
                     }
                 })
@@ -65,9 +70,10 @@ export default class TagWatchInitializer {
     }
 
     private async getOriginalCount(e621Tag: string) {
-        return this.teleCtx.wrapper.getTagJSONByName(e621Tag)
+        let awaitChain = await this.teleCtx.wrapper.getTagJSONByName(e621Tag)
             .then((data) => {
                 return data[0].count - 1;
             })
+            return awaitChain;
     }
 }

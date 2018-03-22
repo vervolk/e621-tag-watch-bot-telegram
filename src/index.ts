@@ -42,8 +42,11 @@ db.connect();
 // GET each user, find their watches and instate them (delays in between)
 db.getAllUserData().then((userRows) => {
     userRows.forEach((userSet, index) => {
-        let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet)
-        userWatchThread.test();
+        userSet.watchlist.split(',').forEach((tag, index) => {
+            // We'll likely want to delay these
+            let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet, index)
+            userWatchThread.test();
+        })
         bot.telegram.sendMessage(userSet.teleid, 'test')
     })
 })
@@ -77,6 +80,12 @@ bot.use(
         return next();
     },
 );
+setInterval(sendThreadingTestMessage, 2 * 1000);
+
+function sendThreadingTestMessage() {
+    console.log('Sending message on the main thread')
+    bot.telegram.sendMessage(adminID, new Date().toTimeString());
+}
 
 resetTimer();
 if (debug) elapsedTime('Starting bot polling...');
