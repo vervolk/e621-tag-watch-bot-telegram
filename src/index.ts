@@ -20,10 +20,8 @@ import { Message } from 'telegram-typings';
 // Database wrapper 
 import * as db from './db/database';
 import TagWatchInitializer from './lib/newTagWatchClass';
-
 // #endregion
 
-// Note: definitely going to need a DB for users from the other project
 // TODO: Create a way to have an event system for the actual tag watching of the bot
 
 /* 
@@ -43,7 +41,7 @@ db.connect();
 db.getAllUserData().then((userRows) => {
     userRows.forEach((userSet, index) => {
         userSet.watchlist.split(',').forEach((tag, index) => {
-            // We'll likely want to delay these
+            // We'll likely want to delay these to not bump into the API-limit
             let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet, index)
             userWatchThread.test();
         })
@@ -80,11 +78,13 @@ bot.use(
         return next();
     },
 );
-setInterval(sendThreadingTestMessage, 2 * 1000);
+setInterval(sendThreadingTestMessage, 1 * 1000);
 
 function sendThreadingTestMessage() {
-    console.log('Sending message on the main thread')
-    bot.telegram.sendMessage(adminID, new Date().toTimeString());
+    resetTimer();
+    elapsedTime('Sending message on the main thread');
+    bot.telegram.sendMessage(adminID, new Date().toTimeString())
+    .then(() => elapsedTime('Sent message'))
 }
 
 resetTimer();
