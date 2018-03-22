@@ -74,6 +74,6 @@ export default class TagWatchInitializer {
             .then((data) => {
                 return data[0].count - 1;
             })
-            return awaitChain;
+        return awaitChain;
     }
 }

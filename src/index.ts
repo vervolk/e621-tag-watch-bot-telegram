@@ -84,7 +84,7 @@ function sendThreadingTestMessage() {
     resetTimer();
     elapsedTime('Sending message on the main thread');
     bot.telegram.sendMessage(adminID, new Date().toTimeString())
-    .then(() => elapsedTime('Sent message'))
+        .then(() => elapsedTime('Sent message'))
 }
 
 resetTimer();
