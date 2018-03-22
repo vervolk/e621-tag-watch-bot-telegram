@@ -12,6 +12,14 @@ export default class TagWatchInitializer {
     private dbUserSet: userSingleRow;
     private tagCount: number;
     private indexToWatch: number
+    /**
+     * Creates an instance of TagWatchInitializer.
+     * @param {*} teleCtx Telegram bot context object
+     * @param {*} botTelegramInstance The bot instance object
+     * @param {userSingleRow} dbUserSet User's DB info
+     * @param {number} indexToWatch 
+     * @memberof TagWatchInitializer
+     */
     constructor(teleCtx: any, botTelegramInstance: any, dbUserSet: userSingleRow, indexToWatch: number) {
         this.teleCtx = teleCtx;
         this.botTelegramInstance = botTelegramInstance;
@@ -20,7 +28,13 @@ export default class TagWatchInitializer {
         this.indexToWatch = indexToWatch;
     }
 
-    test() {
+    /**
+     * 
+     * initialize a SINGLE tag watch for the given user
+     * @returns void
+     * @memberof TagWatchInitializer
+     */
+    initializeWatcher() {
         let originalCount: number = 0;
         console.log(this.dbUserSet);
         let watchlist = this.dbUserSet.watchlist.split(',')
@@ -73,7 +87,7 @@ export default class TagWatchInitializer {
         let awaitChain = await this.teleCtx.wrapper.getTagJSONByName(e621Tag)
             .then((data) => {
                 return data[0].count - 1;
-            })
+            });
         return awaitChain;
     }
 }
