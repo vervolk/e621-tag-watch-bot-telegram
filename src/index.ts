@@ -23,6 +23,10 @@ import TagWatchInitializer from './lib/newTagWatchClass';
 // #endregion
 
 // TODO: Create a way to have an event system for the actual tag watching of the bot
+// TODO: Create a queuing system for API calls (we don't want to hit that limit)
+// TODO: Eventualy improve the architecture of this!
+// TODO: Create a way to 'cache' new posts and only send the new items on a 
+// user-defined number of favorites
 
 /* 
 Gaols/Features:
@@ -39,6 +43,10 @@ db.connect();
 
 // GET each user, find their watches and instate them (delays in between)
 db.getAllUserData().then((userRows) => {
+    if (userRows.length < 1) {
+        bot.telegram.sendMessage(adminID, 'Error: Database user table returned as empty');
+        throw Error('Database is empty');
+    }
     userRows.forEach((userSet, index) => {
         userSet.watchlist.split(',').forEach((tag, index) => {
             // We'll likely want to delay these to not bump into the API-limit
@@ -77,14 +85,14 @@ bot.use(
         return next();
     },
 );
-setInterval(sendThreadingTestMessage, 1 * 500);
+// setInterval(sendThreadingTestMessage, 1 * 500);
 
-function sendThreadingTestMessage() {
-    // resetTimer();
-    logger.debug(`On the main thread at ${new Date().toISOString()}`)
-    // bot.telegram.sendMessage(adminID, new Date().toTimeString())
-    //     .then(() => elapsedTime('Sent message'))
-}
+// function sendThreadingTestMessage() {
+//     // resetTimer();
+//     logger.debug(`On the main thread at ${new Date().toISOString()}`)
+//     // bot.telegram.sendMessage(adminID, new Date().toTimeString())
+//     //     .then(() => elapsedTime('Sent message'))
+// }
 
 resetTimer();
 if (debug) elapsedTime('Starting bot polling...');
