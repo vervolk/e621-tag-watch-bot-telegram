@@ -50,8 +50,14 @@ export function addUser(teleid: number, watchlist: string, blackList: string) {
     })
 }
 
-export function modifyUser(teleid: number, watchlist?: string, blacklist?: string) {
-
+export function modifyUserWatchList(teleid: number, watchlist: string) {
+    return new Promise((resolve, reject) => {
+        var sql = `UPDATE userdata SET watchlist = '${watchlist}' WHERE teleid = '${teleid}'`;
+        con.query(sql, function (err, result) {
+            if (err) return reject(err);
+            return resolve(result);
+        });
+    });
 }
 
 export function removeUser(teleid: number) {
