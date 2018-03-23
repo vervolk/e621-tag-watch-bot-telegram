@@ -40,19 +40,28 @@ export function createUserTable() {
  * @param {string} blackList 
  */
 export function addUser(teleid: number, watchlist: string, blackList: string) {
-    var sql = `INSERT INTO userdata (teleid, watchlist, blacklist) VALUES ('${teleid}', '${watchlist}', '${blackList}')`;
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log(`Created new user with ID: ${teleid} and a watchlist of ${watchlist}`);
-    });
+    return new Promise((resolve, reject) => {
+        var sql = `INSERT INTO userdata (teleid, watchlist, blacklist) VALUES ('${teleid}', '${watchlist}', '${blackList}')`;
+        con.query(sql, function (err, result) {
+            if (err) return reject(err);
+            console.log(`Created new user with ID: ${teleid} and a watchlist of ${watchlist}`);
+            return resolve(result);
+        });
+    })
 }
 
 export function modifyUser(teleid: number, watchlist?: string, blacklist?: string) {
 
 }
 
-export function removeUser() {
-
+export function removeUser(teleid: number) {
+    return new Promise((resolve, reject) => {
+        var sql = `DELETE FROM userdata WHERE teleid = '${teleid}'`;
+        con.query(sql, function (err, result) {
+            if (err) return reject(err);
+            return resolve(result);
+        });
+    });
 }
 
 export function getUserDataByID(teleid): Promise<userSingleRow> {
