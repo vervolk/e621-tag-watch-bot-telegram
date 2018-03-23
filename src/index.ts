@@ -27,6 +27,8 @@ import TagWatchInitializer from './lib/newTagWatchClass';
 // TODO: Eventualy improve the architecture of this!
 // TODO: Create a way to 'cache' new posts and only send the new items on a 
 // user-defined number of favorites
+// TODO: Allow the user to have a blacklist
+// TODO: on the /unwatch command, support a full removal or a specific tag removal
 
 /* 
 Gaols/Features:
@@ -109,7 +111,7 @@ bot.context.logger = logger;
 bot.context.wrapper = wrapper;
 bot.context.db = db;
 
-// Listen for any message sent to the bot
+// Listen for any message sent to the bot (does not capture commands)
 bot.on('message', (ctx) => {
     return ctx.logger.debug(`${ctx.message.from.username} sent ${ctx.message.text} at ${Date.now()}`);
 });
