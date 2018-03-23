@@ -5,6 +5,7 @@ import processInfHandler from './processInfoHandler';
 import tagWatchTest from './tagWatchTest';
 import relatedTagTest from './relatedTest';
 import watchHandler from './watchHandler';
+import unwatchHandler from './unwatchHandler';
 
 const composer = new Composer();
 
@@ -13,6 +14,6 @@ composer.command('procinfo', processInfHandler);
 composer.command('test', tagWatchTest);
 composer.command('related', relatedTagTest);
 composer.command('watch', watchHandler);
-
+composer.command('unwatch', unwatchHandler);
 
 export = composer;

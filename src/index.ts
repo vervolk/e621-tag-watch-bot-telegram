@@ -42,11 +42,10 @@ db.getAllUserData().then((userRows) => {
     userRows.forEach((userSet, index) => {
         userSet.watchlist.split(',').forEach((tag, index) => {
             // We'll likely want to delay these to not bump into the API-limit
-            let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet, index)
+            let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet, index);
             userWatchThread.initializeWatcher();
-        })
-        bot.telegram.sendMessage(userSet.teleid, 'test')
-    })
+        });
+    });
 })
 
 // Set limit to 3 message per 3 seconds using telegraf-ratelimit
@@ -78,13 +77,13 @@ bot.use(
         return next();
     },
 );
-setInterval(sendThreadingTestMessage, 1 * 1000);
+setInterval(sendThreadingTestMessage, 1 * 500);
 
 function sendThreadingTestMessage() {
-    resetTimer();
-    elapsedTime('Sending message on the main thread');
-    bot.telegram.sendMessage(adminID, new Date().toTimeString())
-        .then(() => elapsedTime('Sent message'))
+    // resetTimer();
+    logger.debug(`On the main thread at ${new Date().toISOString()}`)
+    // bot.telegram.sendMessage(adminID, new Date().toTimeString())
+    //     .then(() => elapsedTime('Sent message'))
 }
 
 resetTimer();

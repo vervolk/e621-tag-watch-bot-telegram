@@ -41,11 +41,11 @@ export default class TagWatchInitializer {
         return this.getOriginalCount(watchlist[this.indexToWatch])
             .then((count: number) => {
                 this.tagCount = count
-                setInterval(this.intervalTest.bind(this, watchlist[this.indexToWatch]), 10 * 1000)
+                setInterval(this.setWatchInterval.bind(this, watchlist[this.indexToWatch]), 10 * 1000)
             })
     }
 
-    private async intervalTest(tag: string) {
+    private async setWatchInterval(tag: string) {
         console.log(`Private function for ${tag}`);
         let test = Fiber(() => {
             console.log(`Fiber function for ${tag}`);
