@@ -50,6 +50,12 @@ export function addUser(teleid: number, watchlist: string, blackList: string) {
     })
 }
 
+/**
+ * Modify a user's set of tags on their watchlist (can be an add or remove operations)
+ * @param {number} teleid User's Telegram ID
+ * @param {string} watchlist modified watchlist
+ * @returns 
+ */
 export function modifyUserWatchList(teleid: number, watchlist: string) {
     return new Promise((resolve, reject) => {
         var sql = `UPDATE userdata SET watchlist = '${watchlist}' WHERE teleid = '${teleid}'`;
@@ -60,6 +66,12 @@ export function modifyUserWatchList(teleid: number, watchlist: string) {
     });
 }
 
+/**
+ * Remove a user's data from the DB by their ID
+ * @export
+ * @param {number} teleid 
+ * @returns {Promise<any> | Promise<mysql.MysqlError>}
+ */
 export function removeUser(teleid: number) {
     return new Promise((resolve, reject) => {
         var sql = `DELETE FROM userdata WHERE teleid = '${teleid}'`;
@@ -70,6 +82,11 @@ export function removeUser(teleid: number) {
     });
 }
 
+/**
+ * Get a user's DB data by their Telegram ID
+ * @param {any} teleid User's Telegram ID
+ * @returns {Promise<userSingleRow>} 
+ */
 export function getUserDataByID(teleid): Promise<userSingleRow> {
     return new Promise((resolve, reject) => {
         var sql = `SELECT * FROM userdata WHERE teleid = '${teleid}'`;
