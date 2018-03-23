@@ -97,7 +97,6 @@ export function getUserDataByID(teleid): Promise<userSingleRow> {
             } else if (result.length > 1) {
                 return reject(`Multiple users found with the ID ${teleid} (CORRUPTION WARNING)`);
             } else {
-                console.log(`Found ID in database: ${result[0].teleid}`);
                 return resolve(result[0]);
             }
         });
@@ -111,11 +110,11 @@ export function getUserDataByID(teleid): Promise<userSingleRow> {
  */
 export function getAllUserData(): Promise<userSingleRow[]> {
     return new Promise((resolve, reject) => {
-        var sql = `SELECT * FROM userdata`;
+        var sql = 'SELECT * FROM userdata';
         con.query(sql, function (err, result: userSingleRow[]) {
             if (err) throw err;
             if (result.length < 1) {
-                return reject(`No user info found`);
+                return reject('No user info found');
             } else {
                 return resolve(result);
             }

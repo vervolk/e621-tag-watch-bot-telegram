@@ -29,7 +29,6 @@ export default class TagWatchInitializer {
     }
 
     /**
-     * 
      * initialize a SINGLE tag watch for the given user
      * @returns void
      * @memberof TagWatchInitializer

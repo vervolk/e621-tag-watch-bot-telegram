@@ -1,6 +1,9 @@
 'use strict';
 import TagWatchInitializer from '../../lib/newTagWatchClass';
+import { userSingleRow } from '../../db/database';
 
+// TODO: Validate any tags that are given to this
+// TODO: We'll want to actually find a way to thread these like the ones at the start
 export default async function watcHandler(ctx) {
 
     // GET or CREATE the user in the DB and add the tag send through watch by the
@@ -16,25 +19,36 @@ export default async function watcHandler(ctx) {
             .then(() => ctx.time('Message sent!'));
     } else {
         return ctx.db.getUserDataByID(ctx.message.from.id)
-            .then((userData) => {
+            .then((userData: userSingleRow) => {
                 // Update their tag watch set (somehow)
-                console.log(userData)
+                let watchlist = userData.watchlist.split(',');
+                watchlist.push(ctx.message.text.substring(7));
+                return ctx.db.modifyUserWatchList(ctx.message.from.id, watchlist.join(','))
+                .then((results) => {
+                    // console.log(results)
+                    return ctx.reply(`Got it, adding '${ctx.message.text.substring(7)} to your watch list'`);
+                })
+                .catch((err) => {
+                    ctx.telegram.sendMessage()
+                    console.log(err)
+                })
+                // create a new thread for that watch set
             })
             .catch((err) => {
                 // User is not in the DB
                 // add the user
-                ctx.db.addUser(ctx.message.from.id, tagString, '')
+                return ctx.db.addUser(ctx.message.from.id, tagString, '')
                     .then((result) => {
                         // then get their object to pass into the watch thread
                         return ctx.db.getUserDataByID(ctx.message.from.id)
                             .then((userData) => {
+                                // create and initialize the thread for watching
                                 let userWatchThread = new TagWatchInitializer(ctx, ctx.telegram, userData, 0);
                                 userWatchThread.initializeWatcher();
-
-                                return ctx.reply(`Adding you to the database @${ctx.message.from.username}, you're now watching the tag:  ${ctx.message.text.substring(7)}`)
+                                // let the user know
+                                return ctx.reply(`Adding you to the database @${ctx.message.from.username}! You're now watching the tag:  ${ctx.message.text.substring(7)}`);
                             })
                     })
             })
     }
-
 }
