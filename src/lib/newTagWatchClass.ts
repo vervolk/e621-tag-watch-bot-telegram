@@ -46,7 +46,7 @@ export default class TagWatchInitializer {
 
     private async setWatchInterval(tag: string) {
         console.log(`Private function for ${tag}`);
-        let test = Fiber(() => {
+        let thread = Fiber(() => {
             console.log(`Fiber function for ${tag}`);
             return this.teleCtx.wrapper.getTagJSONByName(tag)
                 .then((data) => {
@@ -77,15 +77,15 @@ export default class TagWatchInitializer {
                     }
                 })
         })
-        test.run();
-        test = undefined;
+        thread.run();
+        thread = undefined;
         console.log('Back to private function');
-        // this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, this.dbUserSet.watchlist);
     }
 
     private async getOriginalCount(e621Tag: string) {
         let awaitChain = await this.teleCtx.wrapper.getTagJSONByName(e621Tag)
             .then((data) => {
+                // Count -1 for now for debugging messaging to user
                 return data[0].count - 1;
             });
         return awaitChain;
