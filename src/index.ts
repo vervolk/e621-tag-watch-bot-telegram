@@ -29,6 +29,9 @@ import TagWatchInitializer from './lib/newTagWatchClass';
 // user-defined number of favorites
 // TODO: Allow the user to have a blacklist
 // TODO: on the /unwatch command, support a full removal or a specific tag removal
+// TODO: Handle any/all messages sent to the user having a chance for error!!!
+// TODO: on ANY input from the USER, clean for SQL statements and multiple-inputs
+// on single-input commands
 
 /* 
 Gaols/Features:
