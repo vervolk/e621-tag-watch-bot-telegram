@@ -24,14 +24,14 @@ export default async function watcHandler(ctx) {
                 let watchlist = userData.watchlist.split(',');
                 watchlist.push(ctx.message.text.substring(7));
                 return ctx.db.modifyUserWatchList(ctx.message.from.id, watchlist.join(','))
-                .then((results) => {
-                    // console.log(results)
-                    return ctx.reply(`Got it, adding '${ctx.message.text.substring(7)} to your watch list'`);
-                })
-                .catch((err) => {
-                    ctx.telegram.sendMessage()
-                    console.log(err)
-                })
+                    .then((results) => {
+                        // console.log(results)
+                        return ctx.reply(`Got it, adding '${ctx.message.text.substring(7)} to your watch list'`);
+                    })
+                    .catch((err) => {
+                        ctx.telegram.sendMessage()
+                        console.log(err)
+                    })
                 // create a new thread for that watch set
             })
             .catch((err) => {

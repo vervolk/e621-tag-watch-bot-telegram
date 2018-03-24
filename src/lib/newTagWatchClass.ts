@@ -78,6 +78,7 @@ export default class TagWatchInitializer {
                 })
         })
         test.run();
+        test = undefined;
         console.log('Back to private function');
         // this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, this.dbUserSet.watchlist);
     }
