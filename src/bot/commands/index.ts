@@ -6,6 +6,7 @@ import tagWatchTest from './tagWatchTest';
 import relatedTagTest from './relatedTest';
 import watchHandler from './watchHandler';
 import unwatchHandler from './unwatchHandler';
+import blacklistHandler from './blacklistHandler'
 
 const composer = new Composer();
 
@@ -15,5 +16,7 @@ composer.command('test', tagWatchTest);
 composer.command('related', relatedTagTest);
 composer.command('watch', watchHandler);
 composer.command('unwatch', unwatchHandler);
+composer.command('blacklist', blacklistHandler);
+
 
 export = composer;

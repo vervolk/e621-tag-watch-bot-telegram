@@ -32,6 +32,8 @@ import TagWatchInitializer from './lib/newTagWatchClass';
 // TODO: Handle any/all messages sent to the user having a chance for error!!!
 // TODO: on ANY input from the USER, clean for SQL statements and multiple-inputs
 // on single-input commands
+// TODO: Create a response time metric for the DB and a way to graph it 
+// TODO: Create a response time metric for the bot and a way to graph it
 
 /* 
 Gaols/Features:

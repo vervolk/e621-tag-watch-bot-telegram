@@ -60,11 +60,11 @@ export default class TagWatchInitializer {
                         return this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, `You've got new data for ${tag}`)
                             .then(() => {
                                 // get the post
-                                this.teleCtx.wrapper.getE621PostIndexPaginate(tag, 0, 1, 1)
+                                this.teleCtx.wrapper.getPostIndexPaginate(tag, 0, 1, 1)
                                     .then((response) => {
                                         // blacklist test
                                         // if (response[0][0].tags.includes('canine') == false) {
-                                        let reply = this.teleCtx.wrapper.generateE621PostUrl(response[0][0].id)
+                                        let reply = this.teleCtx.wrapper.generatePostUrl(response[0][0].id)
                                         return this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, reply);
                                         // } else {
                                         //     return this.botTelegramInstance.sendMessage(this.dbUserSet.teleid, `Post includes test blacklist 'canine', skipping`);
