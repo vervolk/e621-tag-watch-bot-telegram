@@ -58,7 +58,7 @@ db.getAllUserData().then((userRows) => {
         userSet.watchlist.split(',').forEach((tag, index) => {
             // We'll likely want to delay these to not bump into the API-limit
             let userWatchThread = new TagWatchInitializer(bot.context, bot.telegram, userSet, index);
-            userWatchThread.initializeWatcher();
+            return userWatchThread.initializeWatcher();
         });
     });
 })

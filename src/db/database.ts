@@ -1,5 +1,5 @@
 'use strict';
-import { dbInfo } from '../config/config'
+import { dbInfo } from '../config/config';
 import * as mysql from 'mysql';
 
 export interface userSingleRow {
@@ -16,20 +16,23 @@ let con = mysql.createConnection({
 });
 
 export function connect() {
+    var pre_query = new Date().getTime();
     return con.connect(function (err) {
         if (err) throw err;
-        console.log('Connected to DB.');
+        var post_query = new Date().getTime();
+        var duration = (post_query - pre_query) / 1000;
+        console.log(`Connected to DB in ${duration} seconds`);
     });
 }
 
 /**
- * This is where we create the user table, running this DELETES old data if run more than once
+ * This is where we create the user table, running this DELETES old data if run yhr table already exists
  */
 export function createUserTable() {
     let sql = "CREATE TABLE userdata (teleid VARCHAR(255), watchlist VARCHAR(255), blacklist VARCHAR(255))";
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log('created main table');
+        console.log('Created main table.');
     });
 }
 
@@ -40,11 +43,14 @@ export function createUserTable() {
  * @param {string} blackList 
  */
 export function addUser(teleid: number, watchlist: string, blackList: string) {
+    var pre_query = new Date().getTime();
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO userdata (teleid, watchlist, blacklist) VALUES ('${teleid}', '${watchlist}', '${blackList}')`;
         con.query(sql, function (err, result) {
             if (err) return reject(err);
-            console.log(`Created new user with ID: ${teleid} and a watchlist of ${watchlist}`);
+            var post_query = new Date().getTime();
+            var duration = (post_query - pre_query) / 1000;
+            console.log(`Created new user with ID: ${teleid} and a watchlist of ${watchlist} in ${duration} seconds.`);
             return resolve(result);
         });
     })
@@ -110,12 +116,16 @@ export function getUserDataByID(teleid): Promise<userSingleRow> {
  */
 export function getAllUserData(): Promise<userSingleRow[]> {
     return new Promise((resolve, reject) => {
+        var pre_query = new Date().getTime();
         var sql = 'SELECT * FROM userdata';
         con.query(sql, function (err, result: userSingleRow[]) {
+            var post_query = new Date().getTime();
+            var duration = (post_query - pre_query) / 1000;
             if (err) throw err;
             if (result.length < 1) {
                 return reject('No user info found');
             } else {
+                console.log(`Got ALL users in ${duration} seconds.`);
                 return resolve(result);
             }
         });
